@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="commons/bar::header-fragment"></head>
+	<body>
+		<!--引入抽取的topbar-->
+		<!--模板名：会使用thymeleaf的前后缀配置规则进行解析-->
+		<div th:replace="commons/bar::topbar"></div>
+
+		<div class="container-fluid">
+			<div class="row">
+				<!--引入侧边栏-->
+				<div th:replace="commons/bar::#sidebar(activeUri='users')"></div>
+
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<h2><a class="btn btn-sm btn-success"  th:href="@{/admin/user}">添加新用户</a></h2>
+					<div class="table-responsive">
+						<table class="table table-striped table-sm">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>姓名</th>
+									<th>性别</th>
+									<th>出生日</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+							<!-- 遍历集合，如果被遍历的变量 plays 为 null 或者不存在，则不会进行遍历，也不报错-->
+							<!-- 没有显示设置状态变量时，Thymeleaf 默认创建一个 userStat 状态变量，-->
+							<!--
+							1）index 属性：当前迭代索引，从0开始
+							2）count 属性：当前的迭代计数，从1开始
+							3）size 属性：迭代变量中元素的总量
+							4）current 属性：每次迭代的 iter 变量，即当前遍历到的元素
+							5）even/odd 布尔属性：当前的迭代是偶数还是奇数。
+							6）first 布尔属性：当前的迭代是否是第⼀个迭代
+							7）last 布尔属性：当前的迭代是否是最后⼀个迭代。
+							-->
+							<tr th:each="user,state:${users}">
+									<td th:text="${state.count}"></td>
+									<td>[[${user.username}]]</td>
+									<td th:text="${user.sex}=='F'?'女':'男'"></td>
+									<td th:text="${#dates.format(user.birth, 'yyyy-MM-dd')}"></td>
+									<td>
+										<a class="btn btn-sm btn-primary" th:href="@{/admin/user/}+${user.id}">编辑</a>
+										<button th:attr="del_uri=@{/admin/user/}+${user.id}" class="btn btn-sm btn-danger deleteBtn">删除</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</main>
+				<!--使用springboot 的DeleteMapping-->
+				<form id="deleteEmpForm"  method="post">
+					<input type="hidden" name="_method" value="delete"/>
+				</form>
+			</div>
+		</div>
+
+
+		<div th:replace="commons/bar::footer-js"></div>
+		<script>
+			$(".deleteBtn").click(function(){
+			    $("#deleteEmpForm").attr("action",$(this).attr("del_uri")).submit();
+			    return false;
+            });
+		</script>
+	</body>
+</html>

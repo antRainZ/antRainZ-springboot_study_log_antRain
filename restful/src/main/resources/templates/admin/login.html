@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head th:replace="commons/bar::header-fragment"></head>
+<link th:href="@{/static/css/signin.css}" rel="stylesheet">
+	<body class="text-center">
+		<form class="form-signin"  th:action="@{/admin/login}" method="post">
+			<img class="mb-4" th:src="@{/static/img/bootstrap-solid.svg}"  alt="" width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal">请登录</h1>
+			<!--判断-->
+			<p style="color: red" th:text="${errorMsg}" th:if="${not #strings.isEmpty(errorMsg)}"></p>
+			<label class="sr-only" >账户名</label>
+			<input type="text"  name="userName" class="form-control" placeholder="Username" required=required th:value="admin">
+			<label class="sr-only" >Password</label>
+			<input type="password" name="password" class="form-control" placeholder="Password"  required=required th:value="admin">
+			<button class="btn btn-lg btn-primary btn-block" type="submit" >登录</button>
+		</form>
+	</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name=author content="antrain">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript" th:src="@{/static/js/jquery.min.js}"></script>
+<script>
+
+    $(function(){
+        $.ajax({
+            //请求方式
+            type : "POST",
+            //请求的媒体类型
+            //请求地址
+            url : "/hello/test2",
+            //数据，json字符串
+            //请求成功
+            success : function(result) {
+                console.log(result);
+            },
+            //请求失败，包含具体的错误信息
+            error : function(e){
+                console.log(e.status);
+                console.log(e.responseText);
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
